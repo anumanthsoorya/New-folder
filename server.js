@@ -1,14 +1,16 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
-const cors = require('cors');  // Import the cors package
-require('dotenv').config();  // Load environment variables
+const cors = require('cors');  
+require('dotenv').config();  
 
 const app = express();
-const port = process.env.PORT ;  // Default to port 5000 if not specified
+const port = process.env.PORT ;  
 
 // Enable CORS for all origins
-app.use(cors());  // This will allow all domains to make requests to your backend
+app.use(cors());  
+
+app.use(cors({ origin: '*' }));
 
 // Middleware to parse JSON
 app.use(bodyParser.json());
@@ -17,8 +19,8 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USER,  // Gmail user (the sender's email)
-        pass: process.env.GMAIL_PASS,  // Gmail app password (if 2FA enabled)
+        user: process.env.GMAIL_USER,  
+        pass: process.env.GMAIL_PASS,  
     },
 });
 
@@ -33,8 +35,8 @@ app.post('/send-email', (req, res) => {
 
     // Define the email content
     const mailOptions = {
-        from: email,  // Sender's email (provided by the user)
-        to: process.env.RECIPIENT_EMAIL,  // Recipient's email address
+        from: email,  
+        to: process.env.RECIPIENT_EMAIL,  
         subject: 'Your Personal Portfoilo Contact Form',
         html: `
             <h3>Your Contact Form</h3>
